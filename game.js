@@ -149,9 +149,22 @@ function playSfx(name) { if (AC && SFX[name]) SFX[name](); }
 
 // ---- 恶搞版死亡嘲讽语录 ----
 const TAUNTS = [
-  '就这？', '存档点都救不了你', '建议倒着玩', '你的反应弧有点长',
-  '铁球表示谢谢款待', '这也能死？', '别砸了别砸了', '套路我都看透了（并没有）',
-  '马里奥看了都摇头', '差一点点就对了吧', '下次试试先想想', '恭喜获得学费账单',
+  '急了急了，他急了',
+  '典中典之原地去世',
+  '孝死，菜就多练',
+  '乐，这都能死？',
+  '绷不住了，家人们',
+  '蚌埠住了兄弟们',
+  '你说得对，但你死了',
+  '小丑竟是你自己',
+  '《手残的一百种死法》',
+  '铁球：谢谢款待',
+  '遥遥领先的死亡次数',
+  '鼠鼠我啊，又没了',
+  '这波啊，这波是白给',
+  '建议直接卸载重开',
+  '差亿点点就对了吧',
+  '存档点都救不了你',
 ];
 function randomTaunt() { return TAUNTS[(Math.random() * TAUNTS.length) | 0]; }
 function deathRank(n) {
@@ -2254,6 +2267,7 @@ function render() {
     pixelText('关 卡 通 过 ！', VW / 2 - 58, 110, 22, '#ffd84d');
     pixelText('TIME BONUS  +' + lastTimeBonus, VW / 2 - 66, 140, 12, '#fff');
     pixelText('SCORE ' + String(score).padStart(6, '0'), VW / 2 - 52, 162, 12, '#fff');
+    if (curMode === 1) pixelText('别嘚瑟，下一关更阴间', VW / 2 - 66, 186, 11, '#ff9de2');
   }
   if (state === 'gameover') {
     ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(0, 0, VW, VH);
@@ -2261,18 +2275,18 @@ function render() {
     pixelText('最终得分 ' + score, VW / 2 - 40, 142, 12, '#fff');
     if (curMode === 1) {
       pixelText('本次共阵亡 ' + trollDeaths + ' 次 · 称号【' + deathRank(trollDeaths) + '】', VW / 2 - 118, 166, 11, '#c07bff');
-      if (stateTimer > 60 && frame >> 4 & 1) pixelText('存档点就在前方……下次一定', VW / 2 - 92, 188, 10, 'rgba(255,255,255,.65)');
+      if (stateTimer > 60 && frame >> 4 & 1) pixelText('存档点表示爱莫能助，下次一定（骗你的）', VW / 2 - 122, 188, 10, 'rgba(255,255,255,.65)');
     }
     if (stateTimer > 60 && frame >> 4 & 1) pixelText('按 Enter 返回标题', VW / 2 - 56, curMode ? 214 : 186, 11, 'rgba(255,255,255,.8)');
   }
   if (state === 'win') {
     ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(0, 0, VW, VH);
     if (curMode === 1) {
-      pixelText('居 然 通 关 了 ？!', VW / 2 - 82, 88, 22, '#7dff8a');
-      pixelText('你征服了全部 ' + levelCount() + ' 个坑爹世界！', VW / 2 - 76, 120, 13, '#fff');
+      pixelText('赢 了 ？ 纯 纯 运 气 ！', VW / 2 - 88, 88, 22, '#7dff8a');
+      pixelText('也就死了 ' + trollDeaths + ' 次而已，好意思发朋友圈？', VW / 2 - 116, 120, 12, '#fff');
       pixelText('FINAL SCORE ' + String(score).padStart(6, '0'), VW / 2 - 76, 148, 13, '#6fe3ff');
-      pixelText('总阵亡 ' + trollDeaths + ' 次 · 称号【' + deathRank(trollDeaths) + '】', VW / 2 - 100, 172, 12, '#c07bff');
-      if (trollDeaths === 0) pixelText('零死亡？？你开挂了吧！', VW / 2 - 70, 194, 10, '#ffd84d');
+      pixelText('官方认证称号【' + deathRank(trollDeaths) + '】（含贬义）', VW / 2 - 104, 172, 12, '#c07bff');
+      if (trollDeaths === 0) pixelText('零死亡？已向系统举报你开挂', VW / 2 - 78, 194, 10, '#ffd84d');
     } else {
       pixelText('恭 喜 通 关 ！！', VW / 2 - 76, 96, 22, '#ffd84d');
       pixelText('你征服了全部 ' + levelCount() + ' 个世界！', VW / 2 - 68, 128, 13, '#fff');
