@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>超级马里奥 · 网页版</title>
+<style>
+  *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#0d0d16;font-family:"Microsoft YaHei",sans-serif;color:#9aa0b4;
+    overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+  #stage{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;border:4px solid #2c2c40;border-radius:10px;
+    width:min(96vw,calc(90vh*512/272));aspect-ratio:512/272;box-shadow:0 12px 48px rgba(0,0,0,.65)}
+  .tip{font-size:13px;margin:14px 6px 0;text-align:center;line-height:1.9}
+  .tip b{color:#ffd84d}
+
+  /* ===== 手机：触屏虚拟按键 ===== */
+  .pads{display:none}
+  @media (pointer:coarse){
+    #stage{justify-content:flex-start;padding-top:env(safe-area-inset-top)}
+    canvas{width:100vw;border:none;border-radius:0;box-shadow:none}
+    .tip{display:none}
+    .pads{flex:1;width:100%;display:flex;align-items:center;justify-content:space-between;
+      padding:3vh 7vw calc(3vh + env(safe-area-inset-bottom));background:#12121c}
+    .dpad{display:flex;gap:14px;align-items:flex-end}
+    .acts{display:flex;gap:18px;align-items:flex-end}
+    .pad{width:17vw;height:17vw;max-width:88px;max-height:88px;border-radius:50%;
+      border:2px solid #3a3a52;background:#1d1d2b;color:#cfd2e0;font-size:22px;font-weight:bold;
+      display:flex;align-items:center;justify-content:center;touch-action:none}
+    .pad.on{background:#35355a;color:#fff;transform:scale(.93)}
+    .pad.small{width:11vw;height:11vw;max-width:56px;max-height:56px;font-size:13px;align-self:center}
+    .pad.a{border-color:#7a3030;background:#3a2020;color:#ffb0b0}
+    .pad.b{border-color:#30507a;background:#202c3a;color:#b0d0ff}
+    .sysrow{position:fixed;top:calc(4px + env(safe-area-inset-top));right:8px;display:flex;gap:8px;z-index:5}
+    .sysrow .pad{width:auto;height:auto;min-width:44px;min-height:30px;border-radius:8px;font-size:13px;padding:2px 10px}
+  }
+  /* 手机横屏：画面撑满，按键浮在两侧 */
+  @media (pointer:coarse) and (orientation:landscape){
+    #stage{justify-content:center}
+    canvas{height:min(100vh,calc(100vw*272/512));width:auto}
+    .pads{flex:none;position:fixed;inset:0;pointer-events:none;padding:0;background:transparent}
+    .dpad{position:absolute;left:3vw;bottom:6vh;pointer-events:auto;transform:scale(.92);transform-origin:left bottom}
+    .acts{position:absolute;right:3vw;bottom:6vh;pointer-events:auto;transform:scale(.92);transform-origin:right bottom}
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="game" width="512" height="272"></canvas>
+</div>
+
+<!-- 触屏虚拟按键（仅触屏设备显示） -->
+<div class="pads" id="pads">
+  <div class="dpad">
+    <button class="pad small" data-k="ArrowDown">下蹲</button>
+    <button class="pad" data-k="ArrowLeft">&#9664;</button>
+    <button class="pad" data-k="ArrowRight">&#9654;</button>
+  </div>
+  <div class="acts">
+    <button class="pad b" data-k="KeyX">B<span style="font-size:10px">跑·火球</span></button>
+    <button class="pad a" data-k="Space">A<span style="font-size:10px">跳跃</span></button>
+  </div>
+</div>
+<div class="sysrow pads">
+  <button class="pad" data-k="KeyP">暂停</button>
+  <button class="pad" data-k="KeyM">静音</button>
+</div>
+
+<p class="tip"><b>&#8592; &#8594;</b> 移动　<b>Z / K / 空格</b> 跳跃　<b>X / J</b> 加速·发射火球　<b>&#8595;</b> 下蹲　<b>P</b> 暂停　<b>M</b> 静音　<b>Enter</b> 开始 / 确认</p>
+<p class="tip" style="margin-top:4px">经典版：吃蘑菇变大、踩敌人、抵达旗杆过关。　恶搞版：天降铁球、假砖塌陷、宝箱弹怪——处处是坑，好在这一路都有自动存档点，死了立刻原地重来。小心头顶。</p>
+
+<script src="game.js"></script>
+</body>
+</html>
