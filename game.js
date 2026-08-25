@@ -2010,15 +2010,21 @@ function pixelText(text, x, y, size, color, align) {
   ctx.fillText(text, x, y);
   ctx.textAlign = 'left';
 }
+function drawWatermark() {
+  ctx.font = 'bold 9px monospace';
+  ctx.fillStyle = 'rgba(255,255,255,.35)';
+  ctx.fillText('Dubnium', 10, 14);
+}
+
 function drawHUD() {
-  pixelText('SCORE ' + String(score).padStart(6, '0'), 12, 16, 10, '#fff');
+  pixelText('SCORE ' + String(score).padStart(6, '0'), 12, 28, 10, '#fff');
   drawSprite(SPR.coin[(frame >> 3) % 4], 150, 6);
-  pixelText('x' + String(coins).padStart(2, '0'), 164, 16, 10, '#ffd84d');
-  pixelText((curMode ? 'WORLD 坑' : 'WORLD ') + modeLevels()[curLevel].name, 240, 16, 10, '#fff');
+  pixelText('x' + String(coins).padStart(2, '0'), 164, 28, 10, '#ffd84d');
+  pixelText((curMode ? 'WORLD 坑' : 'WORLD ') + modeLevels()[curLevel].name, 240, 28, 10, '#fff');
   const tc = timeLeft <= 50 && (frame >> 3 & 1) ? '#ff5555' : '#fff';
-  pixelText('TIME ' + String(timeLeft).padStart(3, '0'), 340, 16, 10, tc);
+  pixelText('TIME ' + String(timeLeft).padStart(3, '0'), 340, 28, 10, tc);
   drawSprite(SPR.mush, 436, 5);
-  pixelText('x' + lives, 452, 16, 10, '#fff');
+  pixelText('x' + lives, 452, 28, 10, '#fff');
   pixelText('HI ' + String(Math.max(hiscore, score)).padStart(6, '0'), 12, 264, 8, 'rgba(255,255,255,.55)');
 }
 
@@ -2062,6 +2068,7 @@ function drawTitle() {
   pixelText('←→ 移动   Z/空格 跳跃   X/J 火球·加速   ↓ 下蹲', VW / 2 - 168, 208, 10, 'rgba(255,255,255,.85)');
   pixelText('HI SCORE ' + String(hiscore).padStart(6, '0'), VW / 2 - 62, 232, 10, '#ffd84d');
   pixelText('同人致敬作品 · 仅用于学习', VW / 2 - 74, 256, 9, 'rgba(255,255,255,.5)');
+  drawWatermark();
 }
 
 /* ============================ 13. 主循环 ============================ */
@@ -2280,6 +2287,7 @@ function render() {
     pixelText('按 P 继续', VW / 2 - 30, 158, 11, 'rgba(255,255,255,.8)');
   }
   if (muted) pixelText('MUTE', VW - 46, 16, 9, 'rgba(255,255,255,.6)');
+  drawWatermark();
 }
 
 function loop(ts) {
