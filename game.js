@@ -2356,7 +2356,7 @@ function toggleFullscreen() {
   }
 }
 function bindTouchPads() {
-  const pads = document.querySelectorAll('#pads [data-k]');
+  const pads = document.querySelectorAll('[data-k]');   // 全局匹配：含右上角 全屏/暂停/静音
   for (const btn of pads) {
     const code = btn.dataset.k;
     const isSys = code === 'KeyP' || code === 'KeyM';
