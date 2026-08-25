@@ -2023,10 +2023,30 @@ function pixelText(text, x, y, size, color, align) {
   ctx.fillText(text, x, y);
   ctx.textAlign = 'left';
 }
+// Dubnium 像素点阵字模（5x7），与游戏画风一致、任意缩放不糊
+const WM_GLYPHS = {
+  D: ['XXXX.', 'X...X', 'X...X', 'X...X', 'X...X', 'X...X', 'XXXX.'],
+  u: ['.....', '.....', 'X...X', 'X...X', 'X...X', 'X...X', '.XXX.'],
+  b: ['X....', 'X....', 'XXXX.', 'X...X', 'X...X', 'X...X', 'XXXX.'],
+  n: ['.....', '.....', 'XXXX.', 'X...X', 'X...X', 'X...X', 'X...X'],
+  i: ['..X..', '.....', '..X..', '..X..', '..X..', '..X..', '..X..'],
+  m: ['.....', '.....', 'XX.XX', 'X.X.X', 'X.X.X', 'X.X.X', 'X.X.X'],
+};
 function drawWatermark() {
-  ctx.font = 'bold 9px monospace';
-  ctx.fillStyle = 'rgba(255,255,255,.35)';
-  ctx.fillText('Dubnium', 10, 14);
+  // 深色投影 + 亮色主体，双重保障清晰度
+  drawWatermarkAt(11, 9, 2, 'rgba(0,0,0,.55)');
+  drawWatermarkAt(10, 8, 2, 'rgba(255,255,255,.88)');
+}
+function drawWatermarkAt(x, y, sc, color) {
+  ctx.fillStyle = color;
+  for (const ch of 'Dubnium') {
+    const g = WM_GLYPHS[ch];
+    if (!g) continue;
+    for (let ry = 0; ry < g.length; ry++)
+      for (let rx = 0; rx < g[ry].length; rx++)
+        if (g[ry][rx] === 'X') ctx.fillRect(x + rx * sc, y + ry * sc, sc, sc);
+    x += 6 * sc;
+  }
 }
 
 function drawHUD() {
